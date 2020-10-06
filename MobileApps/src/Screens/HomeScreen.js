@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, StyleSheet, Button, View} from 'react-native';
+import {Text, StyleSheet, Button, View, Image} from 'react-native';
 
 const HomeScreen = (props)=>{
     console.log(props);
@@ -11,6 +11,10 @@ const HomeScreen = (props)=>{
         function () {
         props.navigation.navigate("Teachers List");
     }}
+    />
+    <Image
+        source={
+        require("./../../assets/iutlogo.jpg")}
     />
     </View>
     );
