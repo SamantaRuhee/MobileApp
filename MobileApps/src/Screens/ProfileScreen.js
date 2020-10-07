@@ -6,6 +6,8 @@ const ProfileScreen=()=>
     return(
         <View>
             <Image
+                height={30} 
+                width={30}
                 source={
                     require("./../../assets/pic.jpg")
                 }

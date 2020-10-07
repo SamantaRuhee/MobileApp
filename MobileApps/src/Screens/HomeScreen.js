@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, StyleSheet, Button, View, Image, TouchableOpacity} from 'react-native';
+import {Text, StyleSheet, Button, View, Image} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const HomeScreen = (props)=>{
@@ -9,7 +9,7 @@ const HomeScreen = (props)=>{
         source={
         require("./../../assets/iutlogo.jpg")}
     />
-    <Text style={Styles.textStyle}>Department of CSE<br></br></Text>
+    <Text style={Styles.textStyle}>Department of CSE Programme: SWE</Text>
     <TouchableOpacity 
     onPress={
         function () {
@@ -18,6 +18,13 @@ const HomeScreen = (props)=>{
     >
         <Text>My Profile</Text>
     </TouchableOpacity>
+    <Button 
+    title='Semester wise course List'
+    onPress={
+        function () {
+        props.navigation.navigate("Semester");
+    }}
+    />
     <Button 
     title='List of faculty Members'
     onPress={

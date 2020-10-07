@@ -1,23 +1,21 @@
 import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
-const SemesterScreen=()=>{
-    const sem=[
-        {name:"1st semester", key: "1"},
-        {name:"2nd semester", key: "2"},
-        {name:"3rd semester", key: "3"},
-        {name:"4th semester", key: "4"},
-        {name:"5th semester", key: "5"},
-    ];
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import CourseScreen from './CourseScreen';
+
+const SemesterScreen=(props)=>{
     return(
-        <View style={Styles.viewStyle}>
-        <FlatList
-        data={sem}
-        renderItem={function( {item}){
-            return(<Text style={Styles.textStyle}>{item.name}</Text>);
-        }}
-        />
-        </View>
+    <View style={Styles.viewStyle}>
+        <TouchableOpacity 
+        onPress={
+            function () {
+            props.navigation.navigate("Course List");
+        }}>
+            <Text style={Styles.textStyle}>1st semester</Text>
+            <Text style={Styles.textStyle}>2nd semester</Text>
+            <Text style={Styles.textStyle}>3rd semester</Text>
+        </TouchableOpacity>
+    </View>
     );
 
 };
