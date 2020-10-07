@@ -14,6 +14,7 @@ function App(){
         <stack.Screen name="Home" component={HomeScreen}/>
         <stack.Screen name="Teachers List" component={ListScreen}/>
         <stack.Screen name="Profile" component={ProfileScreen}/>
+        <stack.Screen name="Semester" component={SemesterScreen}/>
       </stack.Navigator>
     </NavigationContainer>
   );
