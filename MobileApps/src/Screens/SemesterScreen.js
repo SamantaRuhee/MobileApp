@@ -11,21 +11,21 @@ const SemesterScreen=(props)=>{
         <TouchableOpacity 
         onPress={
             function () {
-            props.navigation.navigate("Course List1");
+            props.navigation.navigate("Course1");
         }}>
             <Text style={Styles.textStyle}>1st semester</Text>
         </TouchableOpacity>
         <TouchableOpacity 
         onPress={
             function () {
-            props.navigation.navigate("Course List2");
+            props.navigation.navigate("Course2");
         }}>
             <Text style={Styles.textStyle}>2nd semester</Text>
         </TouchableOpacity>
         <TouchableOpacity 
         onPress={
             function () {
-            props.navigation.navigate("Course List3");
+            props.navigation.navigate("Course3");
         }}>
             <Text style={Styles.textStyle}>3rd semester</Text>
         </TouchableOpacity>

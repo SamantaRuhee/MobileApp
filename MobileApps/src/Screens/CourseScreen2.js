@@ -12,6 +12,7 @@ const CourseScreen2= () =>{
     ];
     return(
         <View style={Styles.viewStyle}>
+        <Text style={Styles.titlestyle}>Second Semester</Text>
         <FlatList
         data={course}
         renderItem={function( {item}){
@@ -26,14 +27,20 @@ const Styles = StyleSheet.create(
     {
         textStyle:{
             fontSize: 50,
-            color: "blue",
-            marginVertical: 30,
+            color: "black",
+            marginVertical: 10,
         },
         viewStyle : {
-            borderColor: "red",
+            borderColor: 'black',
             borderWidth: 5,
             fontSize: 20,
-            backgroundColor: 'purple',
+            backgroundColor: '#ADD8E6',
+        },
+        titlestyle:{
+            fontSize: 50,
+            fontWeight: "bold",
+            color: "blue",
+            marginVertical: 30,
         }
     },
     
