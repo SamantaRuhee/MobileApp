@@ -2,13 +2,13 @@ import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 
-const CourseScreen= () =>{
+const CourseScreen2= () =>{
     const course=[
-        {name:"cse 1001", key: "1"},
-        {name:"swe 1010", key: "2"},
-        {name:"cse 1011", key: "3"},
-        {name:"cse 1000", key: "4"},
-        {name:"swe 1100", key: "5"},
+        {name:"cse 2001", key: "1"},
+        {name:"swe 2010", key: "2"},
+        {name:"cse 2011", key: "3"},
+        {name:"cse 2000", key: "4"},
+        {name:"swe 2100", key: "5"},
     ];
     return(
         <View style={Styles.viewStyle}>
@@ -39,4 +39,4 @@ const Styles = StyleSheet.create(
     
 );
 
-export default CourseScreen;
+export default CourseScreen2;

@@ -9,15 +9,14 @@ const ProfileScreen=()=>
                 height={30} 
                 width={30}
                 source={
-                    require("./../../assets/pic.jpg")
+                    require("./../../assets/profile.jpg")
                 }
             />
-            <Text style={Styles.textStyle}>
-                Name:  X
-                Student ID: 170042064
-                Room No. : 410, FHR
-                Email : samantaruhee31@gmail.com
-            </Text>
+            <Text style={Styles.textStyle}>Name:  Ruhee</Text>
+            <Text style={Styles.textStyle}>Student ID: 170042064</Text>    
+            <Text style={Styles.textStyle}>Room No. : 410, FHR</Text>    
+            <Text style={Styles.textStyle}>Email : samantaruhee31@gmail.com</Text>    
+            
         </View>
     )
 };
