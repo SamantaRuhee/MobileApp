@@ -9,6 +9,8 @@ const ListScreen= () =>{
         {name:"Toma mam", key: "3"},
         {name:"Mohayemin sir", key: "4"},
         {name:"Ashraf sir", key: "5"},
+        {name:"Faisal Hussain sir", key: "6"},
+        {name:"Sadia Sharmin mam", key: "7"},
     ];
     return(
         <View style={Styles.viewStyle}>
@@ -25,15 +27,15 @@ const ListScreen= () =>{
 const Styles = StyleSheet.create(
     {
         textStyle:{
-            fontSize: 50,
-            color: "blue",
+            fontSize: 25,
+            color: 'black',
             marginVertical: 30,
         },
         viewStyle : {
-            borderColor: "red",
+            borderColor: 'black',
             borderWidth: 5,
             fontSize: 20,
-            backgroundColor: 'purple',
+            backgroundColor: '#ADD8E6',
         }
     },
     

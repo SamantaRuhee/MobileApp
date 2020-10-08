@@ -6,8 +6,7 @@ const ProfileScreen=()=>
     return(
         <View>
             <Image
-                height={30} 
-                width={30}
+                style={Styles.imageStyle}
                 source={
                     require("./../../assets/profile.jpg")
                 }
@@ -26,6 +25,12 @@ const Styles = StyleSheet.create(
             fontSize: 30,
             color: 'red',
             alignContent: "center",
+        },
+        imageStyle:{
+            height: 200,
+            width : 200,
+            alignSelf : "center",
+            alignContent : "center",
         },
     }
 );

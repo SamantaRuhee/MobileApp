@@ -4,19 +4,21 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const HomeScreen = (props)=>{
     console.log(props);
-    return(<View>
+    return(<View style={Styles.viewstyle}>
     <Image
+        style={Styles.imageStyle}
         source={
         require("./../../assets/iutlogo.jpg")}
     />
-    <Text style={Styles.textStyle}>Department of CSE Programme: SWE</Text>
+    <Text style={Styles.textStyle}>Department of CSE</Text>
+    <Text style={Styles.textStyle}>Programme: SWE</Text>
     <TouchableOpacity 
     onPress={
         function () {
         props.navigation.navigate("Profile");
     }}
     >
-        <Text>My Profile</Text>
+        <Text style={Styles.profiletext}>My Profile</Text>
     </TouchableOpacity>
     <Button 
     title='Semester wise course List'
@@ -26,13 +28,13 @@ const HomeScreen = (props)=>{
     }}
     />
     <Button 
+    style={Styles.buttonstyle}
     title='List of faculty Members'
     onPress={
         function () {
         props.navigation.navigate("Teachers List");
     }}
     />
-    
     </View>
     );
 };
@@ -43,7 +45,22 @@ const Styles = StyleSheet.create(
             fontSize: 30,
             color: 'blue',
             alignContent: "center",
+            alignSelf: "center",
         },
+        profiletext:{
+            fontSize: 50,
+            alignSelf : "center",
+            alignContent: "center",
+        },
+        imageStyle:{
+            height: 200,
+            width : 200,
+            alignSelf : "center",
+            alignContent : "center",
+        },
+        viewstyle:{
+            backgroundColor : '#ADD8E6',
+        }
     }
 );
 

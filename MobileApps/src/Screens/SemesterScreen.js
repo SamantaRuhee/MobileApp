@@ -38,14 +38,14 @@ const Styles = StyleSheet.create(
     {
         textStyle:{
             fontSize: 50,
-            color: "blue",
+            color: 'black',
             marginVertical: 30,
         },
         viewStyle : {
-            borderColor: "red",
+            borderColor: 'black',
             borderWidth: 5,
             fontSize: 20,
-            backgroundColor: 'purple',
+            backgroundColor: '#ADD8E6',
         }
     },
     
