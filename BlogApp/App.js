@@ -6,14 +6,20 @@ import HomeScreen from './src/Screens/HomeScreen';
 
 const stack = createStackNavigator();
 
+const HomeStackScreen = () => {
+  return(
+    <HomeStackScreen.Navigator>
+    <HomeStackScreen.Screen name ='Home' component={HomeScreen}/>
+    </HomeStackScreen.Navigator>
+  );
+};
+
 function App(){
   return(
-    <NavigationContainer initialRoutineName="Home">
-      <stack.Navigator>
-        <stack.Screen name="Home" component={HomeScreen}/>
-        <stack.Screen name="Login" component={LoginScreen}/>
-      </stack.Navigator>
+    <NavigationContainer>
+      <HomeStackScreen/>
     </NavigationContainer>
   );
-}
+};
+
 export default App;
