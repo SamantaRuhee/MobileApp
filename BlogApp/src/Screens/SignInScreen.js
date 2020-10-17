@@ -3,7 +3,7 @@ import { Text, StyleSheet, View, TextInput, Switch } from 'react-native';
 import { Input, Button, Card } from 'react-native-elements';
 import { Entypo, } from '@expo/vector-icons';
 
-const SignUpScreen = (props) => {
+const SignInScreen = (props) => {
     return (<View style={Styles.viewstyle}>
         <Card>
             <Card.Title>CARD WITH DIVIDER</Card.Title>
@@ -19,7 +19,7 @@ const SignUpScreen = (props) => {
             />
             <Button
             icon={<Entypo name="mobile" size={24} color="black" />}
-            title='SignUp and auto-login'
+            title='SignIn'
             type='clear'
             onPress={
                 function () {
@@ -28,11 +28,11 @@ const SignUpScreen = (props) => {
             />
             <Button
             icon={<Entypo name="mobile" size={24} color="black" />}
-            title="Already have an account?"
+            title="Don't have an account?"
             type='clear'
             onPress={
                 function () {
-                    props.navigation.navigate("SignIn");
+                    props.navigation.navigate("SignUp");
                 }}
             />
         </Card>
@@ -56,4 +56,4 @@ const Styles = StyleSheet.create(
     }
 );
 
-export default SignUpScreen;
+export default SignInScreen;

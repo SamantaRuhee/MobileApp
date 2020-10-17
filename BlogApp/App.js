@@ -1,23 +1,34 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import LoginScreen from './src/Screens/LoginScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import SignInScreen from './src/Screens/SignInScreen';
+import SignUpScreen from './src/Screens/SignUpScreen';
 import HomeScreen from './src/Screens/HomeScreen';
 
-const stack = createStackNavigator();
+const HomeStack = createStackNavigator();
+const AuthStack = createStackNavigator();
 
 const HomeStackScreen = () => {
-  return(
+  return (
     <HomeStackScreen.Navigator>
-    <HomeStackScreen.Screen name ='Home' component={HomeScreen}/>
+      <HomeStackScreen.Screen name='Home' component={HomeScreen} />
     </HomeStackScreen.Navigator>
   );
 };
 
-function App(){
-  return(
+const AuthStackScreen = () => {
+  return (<AuthStack.Navigator>
+    <AuthStack.Screen name='SignIn' component={SignInScreen} options={{headerShown:false}} />
+    <AuthStack.Screen name='SignUp' component={SignUpScreen} options={{headerShown:false}} />
+  </AuthStack.Navigator>
+  );
+};
+
+function App() {
+  return (
     <NavigationContainer>
-      <HomeStackScreen/>
+      <AuthStackScreen />
+      {/* <HomeStackScreen/>*/}
     </NavigationContainer>
   );
 };
