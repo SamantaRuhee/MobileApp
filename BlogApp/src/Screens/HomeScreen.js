@@ -8,12 +8,13 @@ const HomeScreen = (props) => {
     return (
         <AuthContext.Consumer>
             {(auth)=>(<View style={Styles.viewstyle}>
-                <Text>Welcome to home</Text>
+                <Text style= {Styles.textStyle}>Welcome {auth.CurrentUser.name}</Text>
                 <Button
                 type='outline'
                 title='log out'
                 onPress={function(){
                     auth.setIsLoggedIn(false);
+                    auth.setCurrentUser({});
                 }}
                 />
             </View>)}

@@ -3,8 +3,13 @@ import { Text, StyleSheet, View, TextInput, Switch } from 'react-native';
 import { Input, Button, Card } from 'react-native-elements';
 import { Entypo, } from '@expo/vector-icons';
 import { AuthContext } from '../Provider/AuthProvider';
+import {getDataJSON} from '../Functions/AsyncStorageFunctions';
 
 const SignInScreen = (props) => {
+    
+    const [Email, setEmail] = useState("");
+    const [Password, setPassword] = useState("");
+
     return (
         <AuthContext.Consumer>
             {(auth) => (<View style={Styles.viewstyle}>
@@ -14,10 +19,16 @@ const SignInScreen = (props) => {
                     <Input
                         leftIcon={<Entypo name="mail-with-circle" size={24} color="black" />}
                         placeholder='E-mail Address'
+                        onChangeText={function (currentInput){
+                            setEmail(currentInput);
+                        }}
                     />
                     <Input
                         leftIcon={<Entypo name="lock" size={24} color="black" />}
                         placeholder='Password'
+                        onChangeText={function (currentInput){
+                            setPassword(currentInput);
+                        }}
                         secureTextEntry={true}
                     />
                     <Button
@@ -25,8 +36,15 @@ const SignInScreen = (props) => {
                         title='SignIn'
                         type='clear'
                         onPress={
-                            function () {
-                                auth.setIsLoggedIn(true);
+                            async function () {
+                                let UserData = await getDataJSON(Email);
+                                if(UserData.password==Password){
+                                    auth.setIsLoggedIn(true);
+                                    auth.setCurrentUser(UserData);
+                                }else{
+                                    alert("Login Failed!");
+                                    console.log(UserData);
+                                }
                             }}
                     />
                     <Button
