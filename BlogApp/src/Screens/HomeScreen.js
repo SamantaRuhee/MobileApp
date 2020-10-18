@@ -1,42 +1,47 @@
 import React from 'react';
-import {Text, StyleSheet, Button, View, Image} from 'react-native';
+import { Text, StyleSheet, View, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { AuthContext } from '../Provider/AuthProvider';
+import { Button } from 'react-native-elements';
 
-const HomeScreen = (props)=>{
-    console.log(props);
-    return(<View style={Styles.viewstyle}>
-    <Button 
-    title='input'
-    onPress={
-        function () {
-        props.navigation.navigate("Login");
-    }}
-    />
-    </View>
+const HomeScreen = (props) => {
+    return (
+        <AuthContext.Consumer>
+            {(auth)=>(<View style={Styles.viewstyle}>
+                <Text>Welcome to home</Text>
+                <Button
+                type='outline'
+                title='log out'
+                onPress={function(){
+                    auth.setIsLoggedIn(false);
+                }}
+                />
+            </View>)}
+        </AuthContext.Consumer>
     );
 };
 
 const Styles = StyleSheet.create(
     {
-        textStyle:{
+        textStyle: {
             fontSize: 30,
             color: 'blue',
             alignContent: "center",
             alignSelf: "center",
         },
-        profiletext:{
+        profiletext: {
             fontSize: 50,
-            alignSelf : "center",
+            alignSelf: "center",
             alignContent: "center",
         },
-        imageStyle:{
+        imageStyle: {
             height: 200,
-            width : 200,
-            alignSelf : "center",
-            alignContent : "center",
+            width: 200,
+            alignSelf: "center",
+            alignContent: "center",
         },
-        viewstyle:{
-            backgroundColor : '#ADD8E6',
+        viewstyle: {
+            backgroundColor: '#ADD8E6',
         }
     }
 );

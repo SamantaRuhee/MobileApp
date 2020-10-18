@@ -5,31 +5,36 @@ import SignInScreen from './src/Screens/SignInScreen';
 import SignUpScreen from './src/Screens/SignUpScreen';
 import HomeScreen from './src/Screens/HomeScreen';
 
+import { AuthContext, AuthProvider } from './src/Provider/AuthProvider';
+
 const HomeStack = createStackNavigator();
 const AuthStack = createStackNavigator();
 
 const HomeStackScreen = () => {
   return (
-    <HomeStackScreen.Navigator>
-      <HomeStackScreen.Screen name='Home' component={HomeScreen} />
-    </HomeStackScreen.Navigator>
+    <HomeStack.Navigator >
+      <HomeStack.Screen name='Home' component={HomeScreen} />
+    </HomeStack.Navigator>
   );
 };
 
 const AuthStackScreen = () => {
-  return (<AuthStack.Navigator>
-    <AuthStack.Screen name='SignIn' component={SignInScreen} options={{headerShown:false}} />
-    <AuthStack.Screen name='SignUp' component={SignUpScreen} options={{headerShown:false}} />
+  return (<AuthStack.Navigator initialRouteName='SignIn'>
+    <AuthStack.Screen name='SignIn' component={SignInScreen} options={{ headerShown: false }} />
+    <AuthStack.Screen name='SignUp' component={SignUpScreen} options={{ headerShown: false }} />
   </AuthStack.Navigator>
   );
 };
 
 function App() {
   return (
-    <NavigationContainer>
-      <AuthStackScreen />
-      {/* <HomeStackScreen/>*/}
-    </NavigationContainer>
+    <AuthProvider>
+      <AuthContext.Consumer>
+        {(auth)=>(<NavigationContainer>
+          {auth.IsLoggedIn ? <HomeStackScreen/> : <AuthStackScreen/>}
+        </NavigationContainer>)}
+      </AuthContext.Consumer>
+    </AuthProvider>
   );
 };
 
