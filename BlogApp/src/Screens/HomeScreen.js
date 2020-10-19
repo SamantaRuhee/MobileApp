@@ -1,50 +1,130 @@
 import React from 'react';
-import { Text, StyleSheet, View, Image } from 'react-native';
+import {  StyleSheet, View, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AuthContext } from '../Provider/AuthProvider';
-import { Button } from 'react-native-elements';
+import { Button, Card, Text, Avatar, Input, Header } from 'react-native-elements';
+import { AntDesign, Entypo } from "@expo/vector-icons";
 
 const HomeScreen = (props) => {
-    return (
-        <AuthContext.Consumer>
-            {(auth)=>(<View style={Styles.viewstyle}>
-                <Text style= {Styles.textStyle}>Welcome {auth.CurrentUser.name}</Text>
-                <Button
-                type='outline'
-                title='log out'
-                onPress={function(){
-                    auth.setIsLoggedIn(false);
-                    auth.setCurrentUser({});
-                }}
-                />
-            </View>)}
-        </AuthContext.Consumer>
-    );
+    const post =
+    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.";
+  return (
+    <AuthContext.Consumer>
+      {(auth) => (
+        <View style={styles.viewStyle}>
+          <Header
+            leftComponent={{
+              icon: "menu",
+              color: "#fff",
+              onPress: function () {
+                props.navigation.toggleDrawer();
+              },
+            }}
+            centerComponent={{ text: "The Office", style: { color: "#fff" } }}
+            rightComponent={{
+              icon: "lock-outline",
+              color: "#fff",
+              onPress: function () {
+                auth.setIsLoggedIn(false);
+                auth.setCurrentUser({});
+              },
+            }}
+          />
+          <Card>
+            <Input
+              placeholder="What's On Your Mind?"
+              leftIcon={<Entypo name="pencil" size={24} color="black" />}
+            />
+            <Button title="Post" type="outline" onPress={function () {}} />
+          </Card>
+          <Card>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <Avatar
+                containerStyle={{ backgroundColor: "#ffab91" }}
+                rounded
+                icon={{ name: "user", type: "font-awesome", color: "black" }}
+                activeOpacity={1}
+              />
+              <Text h4Style={{ padding: 10 }} h4>
+                Jim Halpert
+              </Text>
+            </View>
+            <Text style={{ fontStyle: "italic" }}> Posted on 10 Aug, 2020</Text>
+            <Text
+              style={{
+                paddingVertical: 10,
+              }}
+            >
+              {post}
+            </Text>
+            <Card.Divider />
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <Button
+                type="outline"
+                title="  Like (21)"
+                icon={<AntDesign name="like2" size={24} color="dodgerblue" />}
+              />
+              <Button type="solid" title="Comment (7)" />
+            </View>
+          </Card>
+          <Card>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <Avatar
+                containerStyle={{ backgroundColor: "#ffab91" }}
+                rounded
+                icon={{ name: "user", type: "font-awesome", color: "black" }}
+                activeOpacity={1}
+              />
+              <Text h4Style={{ padding: 10 }} h4>
+                Dwight Schrute
+              </Text>
+            </View>
+            <Text style={{ fontStyle: "italic" }}> Posted on 10 Aug, 2020</Text>
+            <Text
+              style={{
+                paddingVertical: 10,
+              }}
+            >
+              {post}
+            </Text>
+            <Card.Divider />
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <Button
+                type="outline"
+                title="  Like (17)"
+                icon={<AntDesign name="like2" size={24} color="dodgerblue" />}
+              />
+              <Button type="solid" title="Comment (10)" />
+            </View>
+          </Card>
+        </View>
+      )}
+    </AuthContext.Consumer>
+  );
 };
 
-const Styles = StyleSheet.create(
-    {
-        textStyle: {
-            fontSize: 30,
-            color: 'blue',
-            alignContent: "center",
-            alignSelf: "center",
-        },
-        profiletext: {
-            fontSize: 50,
-            alignSelf: "center",
-            alignContent: "center",
-        },
-        imageStyle: {
-            height: 200,
-            width: 200,
-            alignSelf: "center",
-            alignContent: "center",
-        },
-        viewstyle: {
-            backgroundColor: '#ADD8E6',
-        }
-    }
-);
+const styles = StyleSheet.create({
+  textStyle: {
+    fontSize: 30,
+    color: "blue",
+  },
+  viewStyle: {
+    flex: 1,
+  },
+});
 
 export default HomeScreen;
