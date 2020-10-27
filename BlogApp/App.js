@@ -18,7 +18,7 @@ const AppDrawer = createDrawerNavigator();
 const AppDrawerScreen = () => {
   return (
     <AppDrawer.Navigator>
-      <AppDrawer.Screen name="Home" component={HomeScreen} />
+      <AppDrawer.Screen name="Home" component={HomeTabScreen} />
       <AppDrawer.Screen name="Profile" component={ProfileScreen} />
     </AppDrawer.Navigator>
   );

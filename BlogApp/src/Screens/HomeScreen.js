@@ -1,33 +1,64 @@
-import React from 'react';
-import {  StyleSheet, View, Image } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { AuthContext } from '../Provider/AuthProvider';
-import { Button, Card, Text, Avatar, Input, Header } from 'react-native-elements';
+import React, { useState, useEffect } from "react";
+import { View, StyleSheet, FlatList, ActivityIndicator } from "react-native";
+import { Card, Button, Text, Avatar, Input } from "react-native-elements";
+import PostCard from "./../Components/PostCard";
+import HeaderHome from "../Components/HeaderHome";
 import { AntDesign, Entypo } from "@expo/vector-icons";
+import { AuthContext } from "../Provider/AuthProvider";
+import { getPosts } from "./../Requests/Posts";
+import { getUsers } from "./../Requests/Users";
+import { useNetInfo } from "@react-native-community/netinfo";
 
 const HomeScreen = (props) => {
-    const post =
-    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.";
+  const netinfo = useNetInfo();
+  if (netinfo.type != "unknown" && !netinfo.isInternetReachable) {
+    alert("No Internet!");
+  }
+  const [posts, setPosts] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const loadPosts = async () => {
+    setLoading(true);
+
+    const response = await getPosts();
+    if (response.ok) {
+      setPosts(response.data);
+    } else {
+      alert(response.problem);
+    }
+  };
+  const loadUsers = async () => {
+    const response = await getUsers();
+    if (response.ok) {
+      setUsers(response.data);
+    } else {
+      alert(response.problem);
+    }
+    setLoading(false);
+  };
+  const getName = (id) => {
+    let name = "";
+    users.forEach((element) => {
+      if (element.id == id) {
+        name = element.name;
+      }
+    });
+    return name;
+  };
+
+  useEffect(() => {
+    loadPosts();
+    loadUsers();
+  }, []);
+
   return (
     <AuthContext.Consumer>
       {(auth) => (
         <View style={styles.viewStyle}>
-          <Header
-            leftComponent={{
-              icon: "menu",
-              color: "#fff",
-              onPress: function () {
-                props.navigation.toggleDrawer();
-              },
-            }}
-            centerComponent={{ text: "The Office", style: { color: "#fff" } }}
-            rightComponent={{
-              icon: "lock-outline",
-              color: "#fff",
-              onPress: function () {
-                auth.setIsLoggedIn(false);
-                auth.setCurrentUser({});
-              },
+          <HeaderHome
+            DrawerFunction={() => {
+              props.navigation.toggleDrawer();
             }}
           />
           <Card>
@@ -35,82 +66,22 @@ const HomeScreen = (props) => {
               placeholder="What's On Your Mind?"
               leftIcon={<Entypo name="pencil" size={24} color="black" />}
             />
-            <Button title="Post" type="outline" onPress={function () {}} />
+            <Button title="Post" type="outline" onPress={function () { }} />
           </Card>
-          <Card>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <Avatar
-                containerStyle={{ backgroundColor: "#ffab91" }}
-                rounded
-                icon={{ name: "user", type: "font-awesome", color: "black" }}
-                activeOpacity={1}
-              />
-              <Text h4Style={{ padding: 10 }} h4>
-                Jim Halpert
-              </Text>
-            </View>
-            <Text style={{ fontStyle: "italic" }}> Posted on 10 Aug, 2020</Text>
-            <Text
-              style={{
-                paddingVertical: 10,
-              }}
-            >
-              {post}
-            </Text>
-            <Card.Divider />
-            <View
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
-            >
-              <Button
-                type="outline"
-                title="  Like (21)"
-                icon={<AntDesign name="like2" size={24} color="dodgerblue" />}
-              />
-              <Button type="solid" title="Comment (7)" />
-            </View>
-          </Card>
-          <Card>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <Avatar
-                containerStyle={{ backgroundColor: "#ffab91" }}
-                rounded
-                icon={{ name: "user", type: "font-awesome", color: "black" }}
-                activeOpacity={1}
-              />
-              <Text h4Style={{ padding: 10 }} h4>
-                Dwight Schrute
-              </Text>
-            </View>
-            <Text style={{ fontStyle: "italic" }}> Posted on 10 Aug, 2020</Text>
-            <Text
-              style={{
-                paddingVertical: 10,
-              }}
-            >
-              {post}
-            </Text>
-            <Card.Divider />
-            <View
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
-            >
-              <Button
-                type="outline"
-                title="  Like (17)"
-                icon={<AntDesign name="like2" size={24} color="dodgerblue" />}
-              />
-              <Button type="solid" title="Comment (10)" />
-            </View>
-          </Card>
+          <ActivityIndicator size="large" color="red" animating={loading} />
+
+          <FlatList
+            data={posts}
+            renderItem={({ item }) => {
+              return (
+                <PostCard
+                  author={getName(item.userId)}
+                  title={item.title}
+                  body={item.body}
+                />
+              );
+            }}
+          />
         </View>
       )}
     </AuthContext.Consumer>

@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import { View } from 'react-native';
 
 const AuthContext = React.createContext();
 
