@@ -29,12 +29,7 @@ const AppDrawerScreen = () => {
 
 const PostStackScreen = () => {
   return (
-    <PostStack.Navigator initialRouteName="Home">
-      <PostStack.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{ headerShown: false }}
-      />
+    <PostStack.Navigator initialRouteName="Post">
       <PostStack.Screen
         name="Post"
         component={PostScreen}

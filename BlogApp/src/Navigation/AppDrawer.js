@@ -12,7 +12,6 @@ const AppDrawerScreen = () => {
     <AppDrawer.Navigator>
       <AppDrawer.Screen name="Home" component={HomeTabScreen} />
       <AppDrawer.Screen name="Profile" component={ProfileScreen} />
-      <AppDrawer.Screen name="Post" component={PostStackScreen}/>
     </AppDrawer.Navigator>
   );
 };

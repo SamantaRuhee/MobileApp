@@ -2,14 +2,8 @@ import React, { useState } from "react";
 import { View, StyleSheet, AsyncStorage } from "react-native";
 import { Text, Card, Button, Avatar, Header } from "react-native-elements";
 import { AuthContext } from "../Provider/AuthProvider";
-import {getDataJSON} from '../Functions/AsyncStorageFunctions';
-
-
 
 const ProfileScreen = (props) => {
-  const [Email, setEmail] = useState("");
-  const [CurrentUser, setCurrentUser] = useState({});
-  const [SID, setSID] = useState("");
   return (
     <AuthContext.Consumer>
       {(auth) => (
@@ -32,12 +26,8 @@ const ProfileScreen = (props) => {
               },
             }}
           />
-          let UserData = await getDataJSON({Email});
-          let UserData = await getDataJSON({Name});
-          let UserData = await getDataJSON({SID});
-
-          <Text style={styles.textStyle} >Name:  getDataJSON(CurrentUser)</Text>
-          <Text style={styles.textStyle}>Student ID: UserData.SID </Text>
+          <Text style={styles.textStyle}>Name:  Ruhee</Text>
+          <Text style={styles.textStyle}>Student ID: 170042064</Text>
           <Text style={styles.textStyle}>Room No. : 410, FHR</Text>
           <Text style={styles.textStyle}>Email : samantaruhee31@gmail.com</Text>
           <Card>

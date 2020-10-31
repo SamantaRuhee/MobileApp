@@ -56,11 +56,7 @@ const HomeScreen = (props) => {
     <AuthContext.Consumer>
       {(auth) => (
         <View style={styles.viewStyle}>
-          <HeaderHome
-            DrawerFunction={() => {
-              props.navigation.toggleDrawer();
-            }}
-          />
+          <HeaderHome/>
           <Card>
             <Input
               placeholder="What's On Your Mind?"
@@ -78,6 +74,9 @@ const HomeScreen = (props) => {
                   author={getName(item.userId)}
                   title={item.title}
                   body={item.body}
+                  commentCount={item.commentCount}
+                  likeCount={item.likeCount}
+                  navigation={props.navigation}
                 />
               );
             }}
