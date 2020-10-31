@@ -3,12 +3,14 @@ import { Text, StyleSheet, View, TextInput, Switch } from 'react-native';
 import { Input, Button, Card } from 'react-native-elements';
 import { Entypo, } from '@expo/vector-icons';
 import {storeDataJSON} from '../Functions/AsyncStorageFunctions';
+import { firebase } from '../../Fire'
 
 const SignUpScreen = (props) => {
     const [Name, setName] = useState("");
     const [SID, setSID] = useState("");
     const [Email, setEmail] = useState("");
     const [Password, setPassword] = useState("");
+
 
 
     return (<View style={Styles.viewstyle}>

@@ -6,6 +6,8 @@ import { AuthContext } from "../Provider/AuthProvider";
 import { useNetInfo } from "@react-native-community/netinfo";
 
 const PostScreen = (props) => {
+    const [Comment, setComment] = useState("");
+
     const netinfo = useNetInfo();
     if (netinfo.type != "unknown" && !netinfo.isInternetReachable) {
       alert("No Internet!");
@@ -88,13 +90,24 @@ return (
             <Input
               placeholder="Give a comment!"
               leftIcon={<Entypo name="pencil" size={24} color="black" />}
+              onChangeText={function (currentInput){
+                setComment(currentInput);
+            }}
             />
             <Button title="Post" type="outline" onPress={function () { }} />
           </Card>
         <View >
+        <Card>
+        <Avatar
+                    containerStyle={{ backgroundColor: "#ffab91" }}
+                    rounded
+                    icon={{ name: "user", type: "font-awesome", color: "black" }}
+                    activeOpacity={1}
+                />
             <Text>
-                Pam Beesley Liked Your Post.
-        </Text>
+                {Comment}
+            </Text>
+        </Card>
         </View>
     </View>
 )}
