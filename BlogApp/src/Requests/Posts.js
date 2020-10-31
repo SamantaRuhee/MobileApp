@@ -1,4 +1,4 @@
-import { JPClient } from "./../clients/JPClient";
+import { JPClient } from "./../Clients/JPClient";
 
 const post_endpoint = "/posts";
 const getPosts = () => {

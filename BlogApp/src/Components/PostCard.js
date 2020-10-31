@@ -2,6 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import { Card, Button, Text, Avatar } from "react-native-elements";
 import { AntDesign } from "@expo/vector-icons";
+import PostStackScreen from "./../Screens/PostScreen";
 
 const PostCard = (props) => {
   return (
@@ -37,7 +38,14 @@ const PostCard = (props) => {
           title="  Like (17)"
           icon={<AntDesign name="like2" size={24} color="dodgerblue" />}
         />
-        <Button type="solid" title="Comment (10)" />
+        <Button 
+        type="solid" 
+        title="Comment (10)" 
+        onPress={
+          function () {
+              props.navigation.navigate('Post');
+          }}
+        />
       </View>
     </Card>
   );
