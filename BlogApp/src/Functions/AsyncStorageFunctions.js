@@ -46,7 +46,7 @@ const getDataJSON = async (key) => {
     }
 };
 
-const remoeData = async (key) => {
+const removeData = async (key) => {
     try {
         await AsyncStorage.removeItem(key);
         alert("Data Removed Successfully");
@@ -55,4 +55,4 @@ const remoeData = async (key) => {
     }
 };
 
-export { storeData, storeDataJSON, getData, getDataJSON, remoeData };
+export { storeData, storeDataJSON, getData, getDataJSON, removeData };

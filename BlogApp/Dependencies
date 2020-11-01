@@ -6,3 +6,5 @@ npm install react-native-elements
 npm install apisauce
 npm install @react-native-community/netinfo
 expo install firebase
+npm install react-native-image-picker 
+expo install expo-image-picker

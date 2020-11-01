@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { View, StyleSheet, AsyncStorage } from "react-native";
 import { Text, Card, Button, Avatar, Header, Input } from "react-native-elements";
 import { AntDesign, Entypo } from "@expo/vector-icons";
+import HeaderHome from "../Components/HeaderHome";
+import {storeDataJSON} from '../Functions/AsyncStorageFunctions';
 import { AuthContext } from "../Provider/AuthProvider";
 import { useNetInfo } from "@react-native-community/netinfo";
 
@@ -94,7 +96,7 @@ return (
                 setComment(currentInput);
             }}
             />
-            <Button title="Post" type="outline" onPress={function () { }} />
+            <Button title="Post" type="outline" onPress={function () { }}/>
           </Card>
         <View >
         <Card>
@@ -105,7 +107,7 @@ return (
                     activeOpacity={1}
                 />
             <Text>
-                {Comment}
+              {Comment}
             </Text>
         </Card>
         </View>

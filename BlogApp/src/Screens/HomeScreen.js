@@ -56,7 +56,11 @@ const HomeScreen = (props) => {
     <AuthContext.Consumer>
       {(auth) => (
         <View style={styles.viewStyle}>
-          <HeaderHome/>
+          <HeaderHome
+            DrawerFunction={() => {
+              props.navigation.toggleDrawer();
+            }}
+          />
           <Card>
             <Input
               placeholder="What's On Your Mind?"
