@@ -2,7 +2,6 @@ import React from "react";
 import { View } from "react-native";
 import { Card, Button, Text, Avatar } from "react-native-elements";
 import { AntDesign } from "@expo/vector-icons";
-import PostStackScreen from "./../Screens/PostScreen";
 
 const PostCard = (props) => {
   return (

@@ -1,97 +1,25 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import HomeScreen from "./src/Screens/HomeScreen";
-import NotificationScreen from "./src/Screens/NotificationScreen";
-import ProfileScreen from "./src/Screens/ProfileScreen";
-import SignUpScreen from "./src/Screens/SignUpScreen";
-import SignInScreen from "./src/Screens/SignInScreen";
-
+import AuthStackScreen from "./src/Navigation/AuthStack";
+import AppDrawerScreen from "./src/Navigation/AppDrawer";
 import { AuthContext, AuthProvider } from "./src/Provider/AuthProvider";
-import { Entypo, AntDesign, Ionicons } from "@expo/vector-icons";
-import PostScreen from "./src/Screens/PostScreen";
-const AuthStack = createStackNavigator();
-const PostStack = createStackNavigator();
-const HomeTab = createMaterialBottomTabNavigator();
-const AppDrawer = createDrawerNavigator();
+import * as firebase from 'firebase';
 
-const AppDrawerScreen = () => {
-  return (
-    <AppDrawer.Navigator>
-      <AppDrawer.Screen name="Home" component={HomeTabScreen} />
-      <AppDrawer.Screen name="Profile" component={ProfileScreen} />
-      <AppDrawer.Screen name="Post" component={PostStackScreen}/>
-    </AppDrawer.Navigator>
-  );
+const firebaseConfig = {
+  apiKey: "AIzaSyA9GcsY0SmHJrGigZhwCR9LwwGt3NqesxY",
+  authDomain: "blogapp-r64.firebaseapp.com",
+  databaseURL: "https://blogapp-r64.firebaseio.com",
+  projectId: "blogapp-r64",
+  storageBucket: "blogapp-r64.appspot.com",
+  messagingSenderId: "987530779396",
+  appId: "1:987530779396:web:688d8d5e0744433c530e51"
 };
 
-const PostStackScreen = () => {
-  return (
-    <PostStack.Navigator initialRouteName="Post">
-      <PostStack.Screen
-        name="Post"
-        component={PostScreen}
-        options={{ headerShown: false }}
-      />
-    </PostStack.Navigator>
-  );
-};
+if(!firebase.apps.length){
+firebase.initializeApp(firebaseConfig);}
 
-const HomeTabScreen = () => {
-  return (
-    <HomeTab.Navigator initialRouteName="Home">
-      <HomeTab.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          tabBarLabel: "Home",
-          tabBarIcon: ({ focused }) =>
-            focused ? (
-              <Entypo name="home" color="white" size={26} />
-            ) : (
-              <AntDesign name="home" color="white" size={22} />
-            ),
-        }}
-      />
-      <HomeTab.Screen
-        name="Notification"
-        component={NotificationScreen}
-        options={{
-          tabBarLabel: "Notifications",
-          tabBarIcon: ({ focused }) =>
-            focused ? (
-              <Ionicons name="ios-notifications" size={26} color="white" />
-            ) : (
-              <Ionicons
-                name="ios-notifications-outline"
-                size={22}
-                color="white"
-              />
-            ),
-        }}
-      />
-    </HomeTab.Navigator>
-  );
-};
 
-const AuthStackScreen = () => {
-  return (
-    <AuthStack.Navigator initialRouteName="SignIn">
-      <AuthStack.Screen
-        name="SignIn"
-        component={SignInScreen}
-        options={{ headerShown: false }}
-      />
-      <AuthStack.Screen
-        name="SignUp"
-        component={SignUpScreen}
-        options={{ headerShown: false }}
-      />
-    </AuthStack.Navigator>
-  );
-};
+
 
 function App() {
   return (
