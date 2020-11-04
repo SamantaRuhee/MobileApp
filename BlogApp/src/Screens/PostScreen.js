@@ -58,6 +58,27 @@ const PostScreen = (props) => {
             }}
           />
           <Card>
+          <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+        }}
+      >
+        <Avatar
+          containerStyle={{ backgroundColor: "#ffab91" }}
+          rounded
+          icon={{ name: "user", type: "font-awesome", color: "black" }}
+          activeOpacity={1}
+        />
+        <Text h4Style={{ padding: 10 }} h4>
+          AUTHOR
+        </Text>
+      </View>
+      <Text style={{
+          paddingVertical: 10,
+        }}>
+        POST
+      </Text>
             <Input
               placeholder="Comment here"
               leftIcon={<Entypo name="pencil" size={24} color="black" />}
@@ -118,4 +139,4 @@ const styles = StyleSheet.create({
   },
 });
 
-  export default PostScreen;
+export default PostScreen;

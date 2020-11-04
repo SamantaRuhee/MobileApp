@@ -45,13 +45,19 @@ const ProfileScreen = (props) => {
               props.navigation.toggleDrawer();
             }}
           />
-          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start', }}>
             <Button title="Select Image from Gallery" onPress={pickImage} />
             {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
           </View>
-                <Text style={styles.textStyle}>Name:{auth.CurrentUser.displayName}</Text>
-                  <Text style={styles.textStyle}>Student ID:{auth.CurrentUser.SID}</Text>
-                  <Text style={styles.textStyle}>Mail:{auth.CurrentUser.email}</Text>
+          <Card style={{flex: 1,justifyContent: 'center'}}>
+            <Text style={styles.textStyle}>Name:{auth.CurrentUser.displayName}</Text>
+            <Text style={styles.textStyle}>Student ID:{auth.CurrentUser.sid}</Text>
+            <Text style={styles.textStyle}>Mail:{auth.CurrentUser.email}</Text>
+          </Card>
+          <Button 
+            title="Delete Profile"
+            type='clear'
+          />
         </View>
       )}
     </AuthContext.Consumer>
@@ -60,8 +66,7 @@ const ProfileScreen = (props) => {
 
 const styles = StyleSheet.create({
   textStyle: {
-    fontSize: 30,
-    color: 'blue',
+    fontSize: 20,
     alignContent: "center",
   },
   viewStyle: {

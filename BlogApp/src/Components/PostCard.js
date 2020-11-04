@@ -2,6 +2,8 @@ import React from "react";
 import { View } from "react-native";
 import { Card, Button, Text, Avatar, Input } from "react-native-elements";
 import { AntDesign } from "@expo/vector-icons";
+import * as firebase from "firebase";
+import "firebase/firestore";
 
 const PostCard = (props) => {
   return (
