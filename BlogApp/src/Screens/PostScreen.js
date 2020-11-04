@@ -1,131 +1,121 @@
-import React, { useState } from "react";
-import { View, StyleSheet, AsyncStorage } from "react-native";
-import { Text, Card, Button, Avatar, Header, Input } from "react-native-elements";
-import { AntDesign, Entypo } from "@expo/vector-icons";
+import React, { useState, useEffect } from "react";
+import { View, StyleSheet, FlatList, ActivityIndicator, AsyncStorage } from "react-native";
+import { Card, Button, Text, Avatar, Input } from "react-native-elements";
+import Comments from "./../Components/Comments";
 import HeaderHome from "../Components/HeaderHome";
-import {storeDataJSON} from '../Functions/AsyncStorageFunctions';
+import { AntDesign, Entypo } from "@expo/vector-icons";
 import { AuthContext } from "../Provider/AuthProvider";
 import { useNetInfo } from "@react-native-community/netinfo";
+import * as firebase from "firebase";
+import "firebase/firestore";
+
 
 const PostScreen = (props) => {
-    const [Comment, setComment] = useState("");
+  const netinfo = useNetInfo();
+  if (netinfo.type != "unknown" && !netinfo.isInternetReachable) {
+    alert("No Internet!");
+  }
+  const [comments, setComments] = useState([]);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
 
-    const netinfo = useNetInfo();
-    if (netinfo.type != "unknown" && !netinfo.isInternetReachable) {
-      alert("No Internet!");
-    }
-    const [posts, setPosts] = useState([]);
-    const [users, setUsers] = useState([]);
-    const [loading, setLoading] = useState(false);
-  
-    const loadPosts = async () => {
-      setLoading(true);
-  
-      const response = await getPosts();
-      if (response.ok) {
-        setPosts(response.data);
-      } else {
-        alert(response.problem);
-      }
-    };
-    const loadUsers = async () => {
-      const response = await getUsers();
-      if (response.ok) {
-        setUsers(response.data);
-      } else {
-        alert(response.problem);
-      }
-      setLoading(false);
-    };
-    const getName = (id) => {
-      let name = "";
-      users.forEach((element) => {
-        if (element.id == id) {
-          name = element.name;
-        }
+
+  const loadComments = async () => {
+    setLoading(true);
+    firebase
+      .firestore()
+      .collection("comments")
+      .orderBy("created_at", "desc")
+      .onSnapshot((querySnapshot) => {
+        let User = [];
+        querySnapshot.forEach((doc) => {
+          User.push({
+            id: doc.id,
+            data: doc.data(),
+          });
+        });
+        setComments(User);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+        alert(error);
       });
-      return name;
-    };
+  };
 
-return (
-<AuthContext.Consumer>
-{(auth) => (
-    <View style={styles.viewStyle}>
-        <Header
-            centerComponent={{ text: "The Office", style: { color: "#fff" } }}
-            rightComponent={{
-                icon: "lock-outline",
-                color: "#fff",
-                onPress: function () {
-                    auth.setIsLoggedIn(false);
-                    auth.setCurrentUser({});
-                },
+  useEffect(() => {
+    loadComments();
+  }, []);
+
+
+  return (
+    <AuthContext.Consumer>
+      {(auth) => (
+        <View style={styles.viewStyle}>
+          <HeaderHome
+            DrawerFunction={() => {
+              props.navigation.toggleDrawer();
             }}
-        />
-        <Card>
-            <View
-                style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                }}
-            >
-                <Avatar
-                    containerStyle={{ backgroundColor: "#ffab91" }}
-                    rounded
-                    icon={{ name: "user", type: "font-awesome", color: "black" }}
-                    activeOpacity={1}
-                />
-                <Text h4Style={{ padding: 10 }} h4>
-                Ruhee
-                </Text>
-            </View>
-            <Text style={{ fontStyle: "italic" }}> Biriyani</Text>
-            <Text
-                style={{
-                    paddingVertical: 10,
-                }}
-            >
-                Biriyani khabo. taka nai.
-            </Text>
-        </Card>
-        <Card>
+          />
+          <Card>
             <Input
-              placeholder="Give a comment!"
+              placeholder="Comment here"
               leftIcon={<Entypo name="pencil" size={24} color="black" />}
-              onChangeText={function (currentInput){
-                setComment(currentInput);
-            }}
+              onChangeText={(currentText) => {
+                setInput(currentText);
+              }}
             />
-            <Button title="Post" type="outline" onPress={function () { }}/>
+            <Button
+              title="Comment"
+              type="outline"
+              onPress={function () {
+                setLoading(true);
+                firebase
+                  .firestore().collection("comments").add({
+                    userId: auth.CurrentUser.uid,
+                    body: input,
+                    author: auth.CurrentUser.displayName,
+                    created_at: firebase.firestore.Timestamp.now(),
+                    likes: [],
+                  })
+                  .then(() => {
+                    setLoading(false);
+                    alert("Comment created Successfully!");
+                  })
+                  .catch((error) => {
+                    setLoading(false);
+                    alert(error);
+                  });
+              }}
+            />
           </Card>
-        <View >
-        <Card>
-        <Avatar
-                    containerStyle={{ backgroundColor: "#ffab91" }}
-                    rounded
-                    icon={{ name: "user", type: "font-awesome", color: "black" }}
-                    activeOpacity={1}
+          <ActivityIndicator size="large" color="red" animating={loading} />
+
+          <FlatList
+            data={comments}
+            renderItem={({ item }) => {
+              return (
+                <Comments
+                  author={item.data.author}
+                  body={item.data.body}
                 />
-            <Text>
-              {Comment}
-            </Text>
-        </Card>
+              );
+            }}
+          />
         </View>
-    </View>
-)}
-</AuthContext.Consumer>
-);
+      )}
+    </AuthContext.Consumer>
+  );
 };
 
 const styles = StyleSheet.create({
-textStyle: {
-fontSize: 30,
-color: "blue",
-},
-viewStyle: {
-flex: 1,
-},
+  textStyle: {
+    fontSize: 30,
+    color: "blue",
+  },
+  viewStyle: {
+    flex: 1,
+  },
 });
 
-
-export default PostScreen;
+  export default PostScreen;

@@ -5,9 +5,6 @@ import PostCard from "./../Components/PostCard";
 import HeaderHome from "../Components/HeaderHome";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import { AuthContext } from "../Provider/AuthProvider";
-import { getPosts } from "./../Requests/Posts";
-import { getUsers } from "./../Requests/Users";
-import { TextInput } from 'react-native-paper';
 import { useNetInfo } from "@react-native-community/netinfo";
 import * as firebase from "firebase";
 import "firebase/firestore";
@@ -29,14 +26,14 @@ const HomeScreen = (props) => {
       .collection("posts")
       .orderBy("created_at", "desc")
       .onSnapshot((querySnapshot) => {
-        let temp_posts = [];
+        let User = [];
         querySnapshot.forEach((doc) => {
-          temp_posts.push({
+          User.push({
             id: doc.id,
             data: doc.data(),
           });
         });
-        setPosts(temp_posts);
+        setPosts(User);
         setLoading(false);
       })
       .catch((error) => {
@@ -100,7 +97,6 @@ const HomeScreen = (props) => {
               return (
                 <PostCard
                   author={item.data.author}
-                  title={item.id}
                   body={item.data.body}
                   commentCount={item.commentCount}
                   likeCount={item.likeCount}

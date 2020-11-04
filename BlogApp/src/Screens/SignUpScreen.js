@@ -61,8 +61,7 @@ const SignUpScreen = (props) => {
                                 .createUserWithEmailAndPassword(Email, Password)
                                 .then((userCreds) => {
                                     userCreds.user.updateProfile({ displayName: Name });
-                                    firebase.firestore()
-                                        .collection("users")
+                                    firebase.firestore().collection("users")
                                         .doc(userCreds.user.uid)
                                         .set({
                                             name: Name,

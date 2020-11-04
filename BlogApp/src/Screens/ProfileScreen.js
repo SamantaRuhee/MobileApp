@@ -8,6 +8,7 @@ import { AuthContext } from "../Provider/AuthProvider";
 
 const ProfileScreen = (props) => {
   const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -48,27 +49,9 @@ const ProfileScreen = (props) => {
             <Button title="Select Image from Gallery" onPress={pickImage} />
             {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
           </View>
-          <Text style={styles.textStyle}>Name:  Ruhee</Text>
-          <Text style={styles.textStyle}>Student ID: 170042064</Text>
-          <Text style={styles.textStyle}>Room No. : 410, FHR</Text>
-          <Text style={styles.textStyle}>Email : samantaruhee31@gmail.com</Text>
-          <Card>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Avatar
-                containerStyle={{ backgroundColor: "cyan" }}
-                rounded
-                icon={{
-                  name: "thumbs-o-up",
-                  type: "font-awesome",
-                  color: "black",
-                }}
-                activeOpacity={1}
-              />
-              <Text style={{ paddingHorizontal: 10 }}>
-                {auth.CurrentUser.name} Liked Your Post.
-              </Text>
-            </View>
-          </Card>
+                <Text style={styles.textStyle}>Name:{auth.CurrentUser.displayName}</Text>
+                  <Text style={styles.textStyle}>Student ID:{auth.CurrentUser.SID}</Text>
+                  <Text style={styles.textStyle}>Mail:{auth.CurrentUser.email}</Text>
         </View>
       )}
     </AuthContext.Consumer>
