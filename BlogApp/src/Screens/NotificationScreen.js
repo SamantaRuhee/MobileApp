@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { View, StyleSheet, AsyncStorage } from "react-native";
 import { Text, Card, Button, Avatar, Header } from "react-native-elements";
 import { AuthContext } from "../Provider/AuthProvider";
+import LikeNotificationCard from "./../Components/LikeNotificationCard";
 import HeaderHome from "../Components/HeaderHome";
+import * as firebase from "firebase";
+import "firebase/firestore";
 
 const NotificationScreen = (props) => {
   return (
@@ -14,23 +17,9 @@ const NotificationScreen = (props) => {
               props.navigation.toggleDrawer();
             }}
           />
-          <Card>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Avatar
-                containerStyle={{ backgroundColor: "cyan" }}
-                rounded
-                icon={{
-                  name: "thumbs-o-up",
-                  type: "font-awesome",
-                  color: "black",
-                }}
-                activeOpacity={1}
-              />
-              <Text style={{ paddingHorizontal: 10 }}>
-                Pam Beesley Liked Your Post.
-              </Text>
-            </View>
-          </Card>
+          <LikeNotificationCard
+                  author={auth.CurrentUser.displayName}
+                />
         </View>
       )}
     </AuthContext.Consumer>
