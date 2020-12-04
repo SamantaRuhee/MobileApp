@@ -97,7 +97,7 @@ const HomeScreen = (props) => {
               return (
                 <PostCard
                   author={item.data.author}
-                  title={item.data.uid}
+                  title={item.data.id}
                   body={item.data.body}
                   commentCount={item.commentCount}
                   likeCount={item.likeCount}
