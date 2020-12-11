@@ -9,8 +9,8 @@ import { getDataJSON, removeData } from "../Functions/AsyncStorageFunctions";
 import { getAllComments, saveComment } from "../Functions/PostFunctions";
 import { addNotifications } from "../Functions/NotificationFunctions";
 
-import HeaderTop from "./../Components/HeaderTop";
-import InputCard from "../Components/InputCard";
+import HeaderHome from "./../Components/HeaderHome";
+import Inputs from "../Components/Inputs";
 
 const PostScreen = (props) => {
     const postID = props.route.params.postId;
@@ -92,7 +92,7 @@ const PostScreen = (props) => {
                             </Card>
                         </ScrollView>
                         <Card>
-                            <InputCard
+                            <Inputs
                                 Text="Post a Comment"
                                 currentFunc={setInput}
                                 currentText={input}

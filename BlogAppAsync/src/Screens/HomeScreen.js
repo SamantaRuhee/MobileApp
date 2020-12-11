@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, FlatList, ImageBackground } from "react-native";
-import { Card } from "react-native-elements";
+import {ScrollView, View, StyleSheet,FlatList,ActivityIndicator} from "react-native";
+import {Card, Button,Text,Avatar,Input,Header} from "react-native-elements";
 import { useNetInfo } from "@react-native-community/netinfo";
+import { AntDesign, Entypo } from "@expo/vector-icons";
 import { getAllData, getDataJSON, storeDataJSON, removeData } from "../Functions/AsyncStorageFunctions";
 import { AuthContext } from "../Providers/AuthProvider";
-import { AsyncStorage } from "react-native-community/async-storage";
 import PostCard from "./../Components/PostCard";
 import HeaderHome from "./../Components/HeaderHome";
 
@@ -110,61 +110,68 @@ const HomeScreen = (props) => {
 
     if (!loading) {
         return (
-            <AuthContext.Consumer>
-                {(auth) => (
-                    <View style={styles.viewStyle}>
+        <AuthContext.Consumer>
+            {(auth) => (
+            <View style={styles.viewStyle}>
 
-                        <HeaderHome
-                            DrawerFunction={() => {
-                                props.navigation.toggleDrawer();
-                            }}
+            <HeaderHome
+                DrawerFunction={() => {
+                    props.navigation.toggleDrawer();
+                }}
+            />
+            <Card>
+                <Input
+                Text="What's On Your Mind?"
+                leftIcon={<Entypo name="pencil" size={24} color="black" />}
+                onChangeText={(currentText) => {
+                    setInput(currentText);
+                }}
+                pressFunction={async () => {
+                    setpostID([auth.CurrentUser.username + "-post-" + Math.random().toString(36).substring(7)]);
+                    savePost(
+                        auth.CurrentUser.username,
+                        auth.CurrentUser.name,
+                        postID,
+                        input
+                    )
+                }}/>
+            <Button title="Post" type="outline" onPress={props.pressFunction} />
+            </Card>
+            <FlatList
+            data={posts}
+            onRefresh={loadPosts}
+            refreshing={loading}
+            renderItem={function ({ item }) {
+                let data = JSON.parse(item)
+                return (
+                <View>
+                    <Card>
+                    <PostCard
+                        author={data.name}
+                        body={data.post}
+                        removeFunc={async () => {
+                            await removeData(JSON.stringify(data.postID))
+                            alert("Post Deleted!");
+                        }}
+                    />
+                    <Card.Divider />
+                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                        <Button
+                            type="outline"
+                            title="  Like (17)"
+                            icon={<AntDesign name="like2" size={24} color="dodgerblue" />}
                         />
-                        <Card>
-                            <Input
-                                Text="What's On Your Mind?"
-                                leftIcon={<Entypo name="pencil" size={24} color="black" />}
-                                onChangeText={(currentText) => {
-                                    setInput(currentText);
-                                }}
-                                pressFunction={async () => {
-                                    setpostID([auth.CurrentUser.username + "-post-" + Math.random().toString(36).substring(7)]);
-                                    savePost(
-                                        auth.CurrentUser.username,
-                                        auth.CurrentUser.name,
-                                        postID,
-                                        input
-                                    )
-                                }}
-                            />
-                            <Button title="Post" type="outline" onPress={props.pressFunction} />
-                        </Card>
-                        <FlatList
-                            data={posts}
-                            onRefresh={loadPosts}
-                            refreshing={loading}
-                            renderItem={function ({ item }) {
-                                let data = JSON.parse(item)
-                                return (
-                                    <View>
-                                        <Card>
-                                            <PostCard
-                                                author={data.name}
-                                                body={data.post}
-                                                removeFunc={async () => {
-                                                    await removeData(JSON.stringify(data.postID))
-                                                    alert("Post Deleted!");
-                                                }}
-                                            />
-                                            <Card.Divider />
-                                        </Card>
-                                    </View>
-                                );
-                            }}
-                            keyExtractor={(item, index) => index.toString()}
-                        />
+                        <Button type="solid" title="Comment (10)" />
                     </View>
-                )}
-            </AuthContext.Consumer>
+                </Card>
+                </View>
+                );
+            }}
+            keyExtractor={(item, index) => index.toString()}
+            />
+            </View>
+            )}
+        </AuthContext.Consumer>
         );
     } else {
         return (
@@ -174,6 +181,14 @@ const HomeScreen = (props) => {
         );
     }
 };
-
+const styles = StyleSheet.create({
+    textStyle: {
+        fontSize: 30,
+        color: "blue",
+    },
+    viewStyle: {
+        flex: 1,
+    },
+});
 
 export default HomeScreen;

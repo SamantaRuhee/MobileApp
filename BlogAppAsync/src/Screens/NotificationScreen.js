@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, StyleSheet } from "react-native";
-import { AsyncStorage } from "react-native-community/async-storage";
 import { Text, Card, Button, Avatar, Header } from "react-native-elements";
-import { AuthContext } from "../providers/AuthProvider";
+import { AuthContext } from "../Providers/AuthProvider";
 const NotificationScreen = (props) => {
   return (
     <AuthContext.Consumer>

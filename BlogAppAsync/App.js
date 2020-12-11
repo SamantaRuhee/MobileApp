@@ -2,7 +2,7 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import AuthStackScreen from "./src/Navigation/AuthStack";
 import AppDrawerScreen from "./src/Navigation/AppDrawer";
-import { AuthContext, AuthProvider } from "./src/Provider/AuthProvider";
+import { AuthContext, AuthProvider } from "./src/Providers/AuthProvider";
 
 
 function App() {

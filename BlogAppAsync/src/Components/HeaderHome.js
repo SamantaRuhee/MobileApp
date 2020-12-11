@@ -2,7 +2,9 @@ import React from "react";
 import { Header } from "react-native-elements";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-import { AuthContext } from "../providers/AuthProvider";
+import { AuthContext } from "../Providers/AuthProvider";
+
+
 const HeaderHome = (props) => {
     const icon = [<MaterialCommunityIcons name="logout-variant" size={24} color="black" />]
     return (

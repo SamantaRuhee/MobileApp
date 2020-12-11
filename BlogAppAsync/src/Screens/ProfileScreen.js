@@ -1,49 +1,64 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, FlatList, ImageBackground } from "react-native";
-import { Text, Card, Button, Image } from "react-native-elements";
-import { AuthContext } from "../providers/AuthProvider";
-import { AntDesign } from '@expo/vector-icons';
+import { View, StyleSheet, Image, Platform } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
+import { Text, Card, Button, Avatar, Header } from "react-native-elements";
 import HeaderHome from "../Components/HeaderHome";
-import { getAllPosts } from "../Functions/PostFunctions";
-import PostCard from "./../Components/PostCard";
-import LikeCommentButton from "../Components/LikeCommentButton";
+import { AntDesign, Entypo } from "@expo/vector-icons";
+import * as ImagePicker from 'expo-image-picker';
+import { AuthContext } from "../Providers/AuthProvider";
+
 import { deleteUserInfo } from "../Functions/ProfileFunctions";
-import { clearAllData } from "../functions/AsyncStorageFunctions";
+import { clearAllData } from "../Functions/AsyncStorageFunctions";
 
 const ProfileScreen = (props) => {
-  const [posts, setPosts] = useState([]);
+  const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const loadPosts = async () => {
-    setLoading(true)
-    let response = await getAllPosts();
-    if (response != null) {
-      setPosts(response);
-    }
-    setLoading(false)
-  };
-
   useEffect(() => {
-    loadPosts();
+    (async () => {
+      if (Platform.OS !== 'web') {
+        const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!');
+        }
+      }
+    })();
   }, []);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
 
   return (
     <AuthContext.Consumer>
       {(auth) => (
         <View style={styles.viewStyle}>
-            <HeaderHome
-                            DrawerFunction={() => {
-                                props.navigation.toggleDrawer();
-                            }}
-                        />
-            <Card>
-              <View style={{ alignItems: "center" }}>
-                <Text style={{ fontSize: 32 }}>
-                  {auth.CurrentUser.name}
-                </Text>
-              </View>
-            </Card>
-            <Button
+          <HeaderHome
+            DrawerFunction={() => {
+              props.navigation.toggleDrawer();
+            }}
+          />
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start', }}>
+            <Button title="Select Image from Gallery" onPress={pickImage} />
+            {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+          </View>
+          <Card style={{flex: 1,justifyContent: 'center'}}>
+            <Text style={styles.textStyle}>Name:Rokeya Samanta Ruhee</Text>
+            <Text style={styles.textStyle}>Student ID:64</Text>
+            <Text style={styles.textStyle}>Mail:</Text>
+          </Card>
+          <Button
               buttonStyle={{ backgroundColor: '#e02f2f' }}
               containerStyle={{ width: 150, marginLeft: 120, marginRight: 10, marginTop: 15 }}
               titleStyle={{ marginLeft: 5 }}
@@ -58,57 +73,16 @@ const ProfileScreen = (props) => {
                 auth.setCurrentUser({});
               }}
             />
-            <Card>
-              <View>
-                <Text style={{ alignSelf: "center", fontSize: 18 }}>
-                  Name: Rokeya Samanta Ruhee{"\n"}
-                  Student ID: 170042064 {"\n"}
-                  ultra pro max super lite introvert!!!! 
-              </Text>
-              </View>
-            </Card>
-            <FlatList
-              data={posts}
-              onRefresh={loadPosts}
-              refreshing={loading}
-              renderItem={function ({ item }) {
-                let data = JSON.parse(item)
-                if (JSON.stringify(data.username) === JSON.stringify(auth.CurrentUser.username)) {
-                  return (
-                    <View>
-                      <Card>
-                        <PostCard
-                          author={data.name}
-                          body={data.post}
-                        />
-                        <Card.Divider />
-                        <LikeCommentButton
-                          postID={data.postID}
-                          likes={data.likes}
-                          navigateFunc={() => {
-                            props.navigation.navigate("PostScreen", {
-                              postId: data.postID,
-                            });
-                          }}
-                        />
-                      </Card>
-                    </View>
-                  );
-                }
-              }}
-              keyExtractor={(item, index) => index.toString()}
-            />
         </View>
       )}
     </AuthContext.Consumer>
   );
 };
 
-
 const styles = StyleSheet.create({
   textStyle: {
-    fontSize: 30,
-    color: "blue",
+    fontSize: 20,
+    alignContent: "center",
   },
   viewStyle: {
     flex: 1,
