@@ -4,7 +4,7 @@ import { Card } from "react-native-elements";
 import { useNetInfo } from "@react-native-community/netinfo";
 import { getAllData, getDataJSON, storeDataJSON, removeData } from "../Functions/AsyncStorageFunctions";
 import { AuthContext } from "../Providers/AuthProvider";
-
+import { AsyncStorage } from "react-native-community/async-storage";
 import PostCard from "./../Components/PostCard";
 import HeaderHome from "./../Components/HeaderHome";
 
