@@ -1,11 +1,11 @@
 import React from "react";
-import { TouchableOpacity, View } from "react-native";
-import { Card, Text, Avatar } from "react-native-elements";
+import { View } from "react-native";
+import { Card, Button, Text, Avatar } from "react-native-elements";
+import { AntDesign } from "@expo/vector-icons";
 
 const PostCard = (props) => {
   return (
-    <TouchableOpacity onLongPress={props.removeFunc}>
-    <View>
+    <Card>
       <View
         style={{
           flexDirection: "row",
@@ -22,6 +22,7 @@ const PostCard = (props) => {
           {props.author}
         </Text>
       </View>
+      <Text style={{ fontStyle: "italic" }}> {props.title}</Text>
       <Text
         style={{
           paddingVertical: 10,
@@ -29,8 +30,20 @@ const PostCard = (props) => {
       >
         {props.body}
       </Text>
-    </View>
-    </TouchableOpacity>
+      <Card.Divider />
+      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <Button
+          type="outline"
+          title="  Like (17)"
+          icon={<AntDesign name="like2" size={24} color="dodgerblue" />}
+        />
+        <Button type="solid" title="Comment (10)"
+        onPress={
+          function () {
+            props.navigation.navigate('Post');
+        }} />
+      </View>
+    </Card>
   );
 };
 

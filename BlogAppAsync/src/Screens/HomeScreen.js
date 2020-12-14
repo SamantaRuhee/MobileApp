@@ -1,194 +1,126 @@
 import React, { useState, useEffect } from "react";
-import {ScrollView, View, StyleSheet,FlatList,ActivityIndicator} from "react-native";
-import {Card, Button,Text,Avatar,Input,Header} from "react-native-elements";
-import { useNetInfo } from "@react-native-community/netinfo";
-import { AntDesign, Entypo } from "@expo/vector-icons";
-import { getAllData, getDataJSON, storeDataJSON, removeData } from "../Functions/AsyncStorageFunctions";
-import { AuthContext } from "../Providers/AuthProvider";
+import { ScrollView, View, StyleSheet, FlatList, ActivityIndicator, TextInput,} from "react-native";
+import { Card,  Button,  Text,  Avatar,  Input,  Header,} from "react-native-elements";
 import PostCard from "./../Components/PostCard";
-import HeaderHome from "./../Components/HeaderHome";
-
-const getAllPosts = async () => {
-    let keys = await getAllData();
-    let allposts = [];
-    try {
-        if (keys != null) {
-            for (let key of keys) {
-                if (key.includes('post')) {
-                    let post = await getDataJSON(key);
-                    allposts.push(post);
-                }
-            }
-            return allposts;
-        }
-    } catch (error) {
-        alert(error);
-    }
-}
-const savePost = async (username, name, postID, input) => {
-    let currentPost = {
-        username: username,
-        name: name,
-        postID: postID,
-        post: input,
-        likes: 0,
-    };
-    storeDataJSON(
-        JSON.stringify(postID),
-        JSON.stringify(currentPost)
-    );
-
-    alert("Post Saved!")
-    let UserData = await getDataJSON(JSON.stringify(postID));
-    console.log(UserData);
-}
-
-const getAllComments = async () => {
-    let keys = await getAllData();
-    let allComments = [];
-    try {
-        if (keys != null) {
-            for (let key of keys) {
-                if (key.includes('comment')) {
-                    let comment = await getDataJSON(key);
-                    allComments.push(comment);
-                }
-            }
-            return allComments;
-        }
-    } catch (error) {
-        alert(error);
-    }
-}
-
-const saveComment = async (postID, postAuthor, commentID, commneterID, commenterName, input) => {
-
-    let currentComment = {
-        post: postID,
-        reciever: postAuthor,
-        commentId: commentID,
-        commneterID: commneterID,
-        commenter: commenterName,
-        comment: input,
-    };
-
-    storeDataJSON(
-        JSON.stringify(commentID),
-        JSON.stringify(currentComment)
-    );
-
-    alert("Comment Saved!")
-    let UserData = await getDataJSON(JSON.stringify(commentID));
-    console.log(UserData);
-}
+import { AntDesign, Entypo } from "@expo/vector-icons";
+import { AuthContext } from "../Providers/AuthProvider";
+import { getPosts } from "./../Requests/Posts";
+import {getUsers} from "./../Requests/Users";  
+import HeaderHome from "../Components/HeaderHome";
+import {storeDataJSON} from "../Functions/AsyncStorageFunctions";
+import {getDataJSON} from "../Functions/AsyncStorageFunctions";
 
 const HomeScreen = (props) => {
+  const [posts, setPosts] = useState("");
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-    const netinfo = useNetInfo();
-    if (netinfo.type != "unknown" && !netinfo.isInternetReachable) {
-        alert("No Internet!");
+  const [data, setData] = useState("");
+
+  const loadPosts = async () => {
+    setLoading(true);
+    const response = await getPosts();
+    if (response.ok) {
+      //setPosts(response.data);
     }
+  };
 
-    const [posts, setPosts] = useState([]);
-    const [postID, setpostID] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [input, setInput] = useState([]);
+  const loadUsers = async () => {
+    const response = await getUsers();
+    if (response.ok) {
+      setUsers(response.data);
+    }
+    setLoading(false);
+  };
+  const getName = (id) => {
+    let Name = "";
+    users.forEach((element) => {
+      if (element.id == id) Name = element.name;
+    });
+    return Name;
+  };
 
+  useEffect(() => {
+    loadPosts();
+    loadUsers();
+  }, []);
 
-    const loadPosts = async () => {
-        setLoading(true);
-        let response = await getAllPosts();
-        if (response != null) {
-            setPosts(response);
-        }
-        setLoading(false);
-    };
-
-    useEffect(() => {
-        loadPosts();
-    }, []);
-
-    if (!loading) {
-        return (
-        <AuthContext.Consumer>
-            {(auth) => (
-            <View style={styles.viewStyle}>
-
+  if (!loading) {
+    return (
+      <AuthContext.Consumer>
+        {(auth) => (
+          <View style={styles.viewStyle}>
             <HeaderHome
-                DrawerFunction={() => {
-                    props.navigation.toggleDrawer();
-                }}
-            />
-            <Card>
-                <Input
-                Text="What's On Your Mind?"
-                leftIcon={<Entypo name="pencil" size={24} color="black" />}
-                onChangeText={(currentText) => {
-                    setInput(currentText);
-                }}
-                pressFunction={async () => {
-                    setpostID([auth.CurrentUser.username + "-post-" + Math.random().toString(36).substring(7)]);
-                    savePost(
-                        auth.CurrentUser.username,
-                        auth.CurrentUser.name,
-                        postID,
-                        input
-                    )
-                }}/>
-            <Button title="Post" type="outline" onPress={props.pressFunction} />
-            </Card>
-            <FlatList
-            data={posts}
-            onRefresh={loadPosts}
-            refreshing={loading}
-            renderItem={function ({ item }) {
-                let data = JSON.parse(item)
-                return (
-                <View>
-                    <Card>
-                    <PostCard
-                        author={data.name}
-                        body={data.post}
-                        removeFunc={async () => {
-                            await removeData(JSON.stringify(data.postID))
-                            alert("Post Deleted!");
-                        }}
-                    />
-                    <Card.Divider />
-                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                        <Button
-                            type="outline"
-                            title="  Like (17)"
-                            icon={<AntDesign name="like2" size={24} color="dodgerblue" />}
-                        />
-                        <Button type="solid" title="Comment (10)" />
-                    </View>
-                </Card>
-                </View>
-                );
+            DrawerFunction={() => {
+              props.navigation.toggleDrawer();
             }}
-            keyExtractor={(item, index) => index.toString()}
+          />
+            <Card>
+            
+              <Input
+                multiline
+                placeholder="What's On Your Mind?"
+                onChangeText={
+                  function(currentInput){
+                      setPosts(currentInput)
+  
+                  }
+              }
+                leftIcon={<Entypo name="pencil" size={24} color="black" />}
+              />
+              <Button title="Post" type="outline" onPress={function () {
+                    let userPost = {
+                      user: auth.CurrentUser.Email,
+                      post: posts,
+                    };
+                    
+                    setData({posts});
+                    auth.CurrentUser.post=posts;
+                    storeDataJSON(auth.CurrentUser.Email, auth.CurrentUser);
+                    
+                    
+              }} />
+            </Card>
+
+            
+
+            <FlatList
+              data={posts}
+              renderItem = {function ({item}){
+                return (
+                  
+                  <PostCard
+                    author={auth.CurrentUser.name}
+                    title={item.title} 
+                    body={auth.CurrentUser.post}
+                    navigation={props.navigation}
+                  />
+                );
+              }}
             />
-            </View>
-            )}
-        </AuthContext.Consumer>
-        );
-    } else {
-        return (
-            <View style={{ flex: 1, justifyContent: "center" }}>
-                <ActivityIndicator size="large" color="black" animating={true} />
-            </View>
-        );
-    }
+          </View>
+        )}
+      </AuthContext.Consumer>
+    );
+  } else {
+    return (
+      <View style={{ flex: 1, justifyContent: "center" }}>
+        <ActivityIndicator size="large" color="#338AFF" animating={true} />
+      </View>
+    );
+  }
 };
+
 const styles = StyleSheet.create({
-    textStyle: {
-        fontSize: 30,
-        color: "blue",
-    },
-    viewStyle: {
-        flex: 1,
-    },
+  buttonView: {
+    marginLeft: 30,
+    marginRight: 30,
+    marginVertical: 15,
+  },
+
+  inputStyle: {
+    color: "white"
+  }
 });
 
 export default HomeScreen;

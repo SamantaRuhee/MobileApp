@@ -54,8 +54,8 @@ const ProfileScreen = (props) => {
             {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
           </View>
           <Card style={{flex: 1,justifyContent: 'center'}}>
-            <Text style={styles.textStyle}>Name:Rokeya Samanta Ruhee</Text>
-            <Text style={styles.textStyle}>Student ID:64</Text>
+            <Text style={styles.textStyle}>Name:{auth.CurrentUser.name}</Text>
+            <Text style={styles.textStyle}>Student ID:{auth.CurrentUser.sid}</Text>
             <Text style={styles.textStyle}>Mail:</Text>
           </Card>
           <Button
